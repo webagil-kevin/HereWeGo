@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel événement{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un nouvel événement</h1>
+
+    {{ include('event/account/_form.html.twig') }}
+
+    <a href="{{ path('event_index') }}">Retour à la liste</a>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/select2.fr.js') }}"></script>
+    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
+{% endblock %}

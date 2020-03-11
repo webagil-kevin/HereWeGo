@@ -1,0 +1,133 @@
+easy_admin:
+  site_name: 'Admin HereWeGo'
+
+  entities:
+    UserAdmin:
+      class: App\Entity\User
+      label: 'Membres administrateurs'
+      list:
+        dql_filter: "entity.roles LIKE '%%ROLE_ADMIN%%'"
+        fields: &listUserFields
+          - id
+          - { property: 'avatar', template: '/admin/_user_avatar.html.twig' }
+          - { property: 'email', type: 'email' }
+          - firstname
+          - lastname
+          - city
+          - registers
+      form:
+        fields: &formUserFields
+          - { property: 'email', type: 'email' }
+          - firstname
+          - lastname
+          - address
+          - city
+          -   property: 'avatarFile'
+              type: 'file'
+          -   property: 'roles'
+              type: 'choice'
+              type_options:
+                mapped: true
+                expanded: true
+                multiple: true
+                choices:
+                  'Administrateur': 'ROLE_ADMIN'
+                  'Annonceur': 'ROLE_ORG'
+
+    UserOrg:
+      class: App\Entity\User
+      label: 'Membres organisateurs'
+      list:
+        dql_filter: "entity.roles LIKE '%%ROLE_ORG%%'"
+        fields: *listUserFields
+      form:
+        fields: *formUserFields
+
+    User:
+      class: App\Entity\User
+      label: 'Membres utilisateurs'
+      list:
+        dql_filter: "entity.roles NOT LIKE '%%ROLE_%%'"
+        fields: *listUserFields
+      form:
+        fields: *formUserFields
+
+    Event:
+      class: App\Entity\Event
+      list:
+        fields:
+          - id
+          - { property: 'title', label: 'Titre'}
+          - { property: 'category', label: 'Catégorie'}
+          - registers
+          - { property: 'start', label: "Début", format: 'd/m/Y', type: 'datetime' }
+          - { property: 'end', label: "Fin", format: 'd/m/Y', type: 'datetime' }
+          - { property: 'city', label: 'Ville (Code postal)'}
+          - { property: 'imageName', template: '/admin/_event_image.html.twig' }
+      form:
+        fields:
+          - title
+          - category
+          -   property: 'start'
+              type: 'datetime'
+              type_options:
+                html5: true
+                widget: 'single_text'
+          -   property: 'end'
+              type: 'datetime'
+              type_options:
+                html5: true
+                widget: 'single_text'
+          - address
+          -   property: 'city'
+              type: 'easyadmin_autocomplete'
+              type_options:
+                class: App\Entity\City
+          - mail
+          - phone
+          - website
+          - description
+          -   property: 'imageFile'
+              type: 'file'
+
+    Category:
+      class: App\Entity\Category
+      list:
+        fields:
+          - id
+          - title
+          - { property: 'color', label: 'Couleur' }
+          - icon
+          - events
+      form:
+        fields:
+          - title
+          - { property: 'color', label: 'Couleur', type: 'color' }
+          - { property: 'icon', label: 'Icône', help: 'https://fontawesome.com/icons (fas fa-...)' }
+
+    City:
+      class: App\Entity\City
+
+  design:
+    menu:
+      -   label: 'Menu'
+      -   label: 'Membres'
+          icon: 'users'
+          children:
+            -   entity: 'UserAdmin'
+                label: 'Administrateurs'
+                icon: 'user-cog'
+            -   entity: 'UserOrg'
+                label: 'Organisateurs'
+                icon: 'user-edit'
+            -   entity: 'User'
+                label: 'Utilisateurs'
+                icon: 'user'
+      -   entity: 'Event'
+          label: 'Événements'
+          icon: 'calendar'
+      -   entity: 'Category'
+          label: 'Catégories'
+          icon: 'th-list'
+      -   entity: 'City'
+          label: 'Villes'

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block body %}
+
+    <h1>{{ event.title }}</h1>
+
+    <div class="row">
+        <div class="col">Du {{ event.start | date("d/m/Y G:i") }} au {{ event.end | date("d/m/Y G:i") }}</div>
+    </div>
+    <div class="row">
+        <div class="col">Lieu: {{ event.address }}, {{ event.city.cp }} {{ event.city.name }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ event.description | nl2br }}</div>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomePageController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="homepage">
+    <h1>HereWeGo</h1>
+
+    <h2>Catégories</h2>
+    <div class="row">
+        {% for category in categories %}
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box" style="background-color: {{ category.color }}">
+                    <div class="inner">
+                        <h3>{{ category.title }}</h3>
+                        <p></p>
+                    </div>
+                    <div class="icon">
+                        <i class="{{ category.icon }}"></i>
+                    </div>
+                    <a href=" path('event', ['category' => category.id]) " class="small-box-footer">
+                        View more <i class="fas fa-chevron-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="col">Aucune catégorie</div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

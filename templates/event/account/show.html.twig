@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block body %}
+    <h1>Event</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ event.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ event.title }}</td>
+            </tr>
+            <tr>
+                <th>Start</th>
+                <td>{{ event.start ? event.start|date('Y-m-d H:i') : '' }}</td>
+            </tr>
+            <tr>
+                <th>End</th>
+                <td>{{ event.end ? event.end|date('Y-m-d H:i') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ event.address }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ event.city }} - Lat:{{ event.city.lat }} Lng:{{ event.city.lng }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ event.phone }}</td>
+            </tr>
+            <tr>
+                <th>Website</th>
+                <td>{{ event.website }}</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ event.mail }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ event.description }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ event.label }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>
+                    {% if event.imageName %}
+                    <img src="{{ vich_uploader_asset(event, 'imageFile') | imagine_filter('event_list_thumb') }}"
+                         alt="Image 1">
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('event_account') }}">back to list</a>
+
+    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+
+    {{ include('event/account/_delete_form.html.twig') }}
+{% endblock %}

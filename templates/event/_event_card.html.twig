@@ -1,0 +1,12 @@
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">
+            <a href="{{ path('event', {id: event.id}) }}">
+                {{ event.title }}
+            </a>
+        </h5>
+        <p class="card-text">{{ event.start | date("d/m/Y G:i") }}</p>
+        <p class="card-text">{{ event.city.name }} ({{ event.city.cp }})</p>
+        <p class="card-text" style="background-color: {{ event.category.color }}">{{ event.category }}</p>
+    </div>
+</div>
