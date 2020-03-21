@@ -21,8 +21,8 @@ class CategoryFixtures extends Fixture
         foreach($catList AS $k => $catArray) {
             $category = new Category();
             $category->setTitle($catArray[0]);
-            $category->setColor($catArray[0]);
-            $category->setIcon($catArray[0]);
+            $category->setColor($catArray[1]);
+            $category->setIcon($catArray[2]);
 
             $manager->persist($category);
         }

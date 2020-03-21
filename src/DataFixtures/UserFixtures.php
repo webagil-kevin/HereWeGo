@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use App\DataFixtures\CityFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -48,8 +47,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->persist($personne);
 
-        // On créé 10 utilisateurs
-        for ($i = 0; $i < 10; $i++) {
+        // On crée 300 utilisateurs
+        for ($i = 0; $i < 300; $i++) {
             $personne = new User();
             $personne->setEmail($faker->email);
             $personne->setPassword($this->passwordEncoder->encodePassword(
@@ -67,9 +66,16 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $personne->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
 
             $manager->persist($personne);
+
+            // On envoie régulièrement en BDD pour ne pas saturer le cache
+            if (($i % 20) === 0) {
+                $manager->flush();
+                $manager->clear(); // Detaches all objects from Doctrine!
+            }
         }
 
         $manager->flush();
+        $manager->clear();
     }
 
     public function getDependencies()

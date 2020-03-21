@@ -23,7 +23,7 @@
                     <div class="icon">
                         <i class="{{ category.icon }}"></i>
                     </div>
-                    <a href=" path('event', ['category' => category.id]) " class="small-box-footer">
+                    <a href="{{ path('event_index', {category: category.id}) }}" class="small-box-footer">
                         View more <i class="fas fa-chevron-circle-right"></i>
                     </a>
                 </div>
