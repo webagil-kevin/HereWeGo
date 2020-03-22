@@ -2,9 +2,10 @@
 <html lang="fr">
 
 <head>
-    <title>{% block title %}Welcome to the SpaceBar{% endblock %}</title>
+    <title>{% block title %}HereWeGo{% endblock %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{{ asset('/img/herewego-favicon.svg') }}" type="image/svg+xml"/>
 
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
@@ -20,64 +21,120 @@
         <a href="{{ path('app_homepage', {'_switch_user': '_exit'}) }}">Exit Impersonation</a>
     </div>
 {% endif %}
-<nav class="navbar navbar-expand-lg navbar-dark navbar-bg mb-5">
-    <a style="margin-left: 75px;" class="navbar-brand space-brand" href="">The Space Bar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a style="color: #fff;" class="nav-link" href="#">Local Asteroids</a>
-            </li>
-            <li class="nav-item">
-                <a style="color: #fff;" class="nav-link" href="#">Weather</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <ul class="navbar-nav ml-auto">
-        {% if is_granted('ROLE_USER') %}
-            <li class="nav-item dropdown" style="margin-right: 75px;">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% if app.user.avatar %}
-                    <img class="nav-profile-img rounded-circle"
-                         src="{{ vich_uploader_asset(app.user, 'avatarFile') | imagine_filter('user_avatar_list_thumb')
-                         }}">
-                {% else %}
-                    <img class="nav-profile-img rounded-circle"
-                         src="https://robohash.org/{{ app.user.email }}?size=50x50">
-                {% endif %}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ path('app_account') }}">Profile</a>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a class="dropdown-item" href="{{ path('easyadmin') }}">Admin</a>
-                    {% endif %}
-                    <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            </li>
-        {% else %}
-            <li class="nav-item">
-                <a style="color: #fff;" class="nav-link" href="{{ path('app_login') }}">Login</a>
-            </li>
-            <li class="nav-item">
-                <a style="color: #fff;" class="nav-link" href="{{ path('app_register') }}">Register</a>
-            </li>
-        {% endif %}
-        </ul>
-    </div>
-</nav>
+<header>
+    <div class="header_border-gradient"></div>
 
-<div class="container">
-    {% block body %}{% endblock %}
-</div>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-bg">
+            <a class="navbar-brand space-brand" href="{{ path('app_homepage') }}">
+                <img src="{{ asset('/img/herewego-favicon.svg') }}" height="50px" width="auto" alt="Accueil
+                        HereWeGo">
+                HereWeGo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a style="color: #fff;" class="nav-link" href="{{ path('event_index') }}">Événements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: #fff;" class="nav-link" href="{{ path('app_account') }}">Mon compte</a>
+                    </li>
+                </ul>
+                <form action="{{ path('event_index') }}" method="get" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" name="texte"
+                           placeholder="Quel événement ?" aria-label="search">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Rechercher</button>
+                </form>
+                <ul class="navbar-nav ml-auto">
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item dropdown" style="margin-right: 75px;">
+                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if app.user.avatar %}
+                                    <img class="nav-profile-img rounded-circle"
+                                         src="{{ vich_uploader_asset(app.user, 'avatarFile') | imagine_filter('user_avatar_list_thumb') }}">
+                                {% else %}
+                                    <img class="nav-profile-img rounded-circle"
+                                         src="https://robohash.org/{{ app.user.email }}?size=50x50">
+                                {% endif %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{{ path('app_account') }}">Profile</a>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a class="dropdown-item" href="{{ path('easyadmin') }}">Admin</a>
+                                {% endif %}
+                                <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a style="color: #fff;" class="nav-link" href="{{ path('app_login') }}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color: #fff;" class="nav-link" href="{{ path('app_register') }}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    {% block body_header_bottom %}{% endblock %}
+</header>
+
+<section>
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+</section>
 
 <footer class="footer">
-    <div class="container text-center">
-        <span class="text-muted">Made with <i class="fa fa-heart" style="color: red;"></i> by the guys and gals at <a href="https://knpuniversity.com">KnpUniversity</a></span>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mt-3 infos">
+                <h3>Informations</h3>
+                <ul>
+                    <li><a href="#" title="">Vous avez dit HereWeGo ?</a></li>
+                    <li><a href="#" title="">Vie privée</a></li>
+                    <li><a href="#" title="">Conditions d'utilisation</a></li>
+                    <li><a href="#" title="">Tarifs</a></li>
+                    <li><a href="#" title="">Contactez-nous</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mt-3 account">
+                <h3>Accès direct</h3>
+                <ul>
+                    <li><a href="{{ path('app_register') }}" title="S'inscrire sur HereWeGo">S'inscrire</a></li>
+                    <li><a href="{{ path('app_login') }}" title="S'identifier sur HereWeGo">Se connecter</a></li>
+                    <li><a href="{{ path('event_new') }}" title="Enregistrer un événement sur HereWeGo">Créer un
+                            événement</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mt-3 social">
+                <h3>Réseaux Sociaux</h3>
+                <ul>
+                    <li><a href="https://fr-fr.facebook.com/" title="Facebook" target="_blank"><i
+                                    class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="https://twitter.com/login?lang=fr" title="Twitter" target="_blank"><i
+                                    class="fab fa-twitter"></i></a></li>
+                    <li><a href="https://www.instagram.com/?hl=fr" title="Instagram" target="_blank"><i
+                                    class="fab fa-instagram"></i></a></li>
+                    <li><a href="https://www.youtube.com/?hl=fr&gl=FR" title="Youtube" target="_blank"><i
+                                    class="fab fa-youtube"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="https://github.com/KevID/HereWeGo" title="Site de démonstration">
+                    ® Site de démonstration - Christophe, Kévin, Louis - Projet fil rouge 2019-2020 à l'ISFAC de
+                    Poitiers
+                </a>
+            </div>
+        </div>
     </div>
 </footer>
 
@@ -88,6 +145,7 @@
     <script>
         $('.dropdown-toggle').dropdown();
     </script>
+    <script src="{{ asset('js/script.js') }}"></script>
 {% endblock %}
 </body>
 </html>

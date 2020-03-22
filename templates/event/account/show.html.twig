@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ event.title }}{% endblock %}
+{% block title %}{{ event.title }} - {{ parent() }}{% endblock %}
 
 {% block body %}
     <h1>Event</h1>
@@ -55,17 +55,17 @@
                 <th>Photo</th>
                 <td>
                     {% if event.imageName %}
-                    <img src="{{ vich_uploader_asset(event, 'imageFile') | imagine_filter('event_list_thumb') }}"
-                         alt="Image 1">
+                        <img src="{{ vich_uploader_asset(event, 'imageFile') | imagine_filter('event_list_thumb') }}"
+                             alt="Image 1">
                     {% endif %}
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('event_account') }}">back to list</a>
+    <a href="{{ path('event_account') }}">Retour à la liste</a>
 
-    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+    <a href="{{ path('event_edit', {'id': event.id}) }}">Editer</a>
 
     {{ include('event/account/_delete_form.html.twig') }}
 {% endblock %}

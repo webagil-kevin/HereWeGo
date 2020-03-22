@@ -1,11 +1,29 @@
+:root {
+    --color-white: #ffffff;
+    --color-blue: #425fff;
+    --color-pink: #f8549e;
+    --color-orange: #fe6652;
+    --color-purple: #c644fd;
 
+    --color-link: #425fff;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+section {
+    flex-grow: 1;
+}
 
 .small-box {
     border-radius: 2px;
     position: relative;
     display: block;
     margin-bottom: 20px;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     color: #fff;
 }
 
@@ -46,4 +64,139 @@
 
 .small-box p {
     font-size: 15px;
+}
+
+/*------------------------- Header ----------------------*/
+header .header_border-gradient {
+    background: linear-gradient(135deg, var(--color-blue) 0, var(--color-pink) 60%, var(--color-orange) 100%);
+    height: .5rem;
+    width: 100%;
+}
+
+/*------------------------- Footer ----------------------*/
+footer {
+    background: radial-gradient(circle at bottom left, var(--color-blue) 0, var(--color-pink) 60%, var(--color-orange) 100%);
+    color: var(--color-white);
+    padding: 1rem 0 2rem 0;
+    margin-top: 3rem;
+}
+
+footer a, footer a:hover {
+    color: var(--color-white);
+}
+
+footer .social li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+section h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    width: 100%;
+    background: linear-gradient(-45deg, var(--color-link), var(--color-purple));
+    color: var(--color-white);
+    display: inline-block;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -o-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 2rem 0;
+}
+
+section h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    width: 100%;
+    background: linear-gradient(-45deg, var(--color-link), var(--color-purple));
+    color: var(--color-white);
+    display: inline-block;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -o-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 1rem 0;
+}
+
+/*------------------------- MAIN ----------------------*/
+.zoom {
+    overflow: hidden;
+    padding-bottom: 48%;
+    background-image: url('/img/banner.jpg');
+    background-size: 100%;
+    background-position: top center;
+
+}
+
+@media (max-width: 983px) {
+    .zoom {
+        background-size: cover;
+        padding-bottom: 448px;
+
+    }
+}
+
+.homepage-slogan {
+    position: relative;
+}
+
+.homepage-slogan h1 {
+    font-family: 'Open Sans', sans-serif;
+    text-shadow: 1px 1px 20px var(--color-white);
+    font-size: 75px;
+    font-weight: 800;
+}
+
+.homepage-slogan .vertical-container {
+    width: 360px;
+    height: 100%;
+    background-image: -moz-linear-gradient(top, #0189ff87, #339af300);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #0189ff87), color-stop(1.0, #339af300));
+    position: absolute;
+    right: 70%;
+    z-index: 2;
+    border-radius: 3px;
+}
+
+.homepage-slogan .vertical-slogan {
+    margin-top: 50%;
+}
+
+.homepage-slogan .vertical-slogan p {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    text-shadow: #000 1px 0 10px;
+    font-size: 50px;
+    font-weight: 600;
+    color: var(--color-white);
+}
+
+@media screen and (max-width: 1268px) {
+    .homepage-slogan .vertical-container {
+        display: none;
+    }
+
+    .homepage-slogan .vertical-slogan {
+        display: none;
+    }
+}
+
+.homepage-slogan h1 {
+    font-family: 'Open Sans', sans-serif;
+    text-shadow: 1px 1px 20px var(--color-white);
+    font-size: 75px;
+}
+
+.homepage-slogan .slogan-medium h2 {
+    font-size: 30px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+}
+
+@media screen and (min-width: 1269px) {
+    .homepage-slogan .slogan-medium {
+        display: none;
+    }
 }

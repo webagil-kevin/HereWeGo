@@ -1,37 +1,86 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomePageController!{% endblock %}
+{% block title %}HereWeGo{% endblock %}
+
+{% block body_header_bottom %}
+    <div class="homepage-slogan">
+        <div class="vertical-container">
+            <div class="vertical-slogan">
+                <p>Des événements à partager ensemble</p>
+            </div>
+        </div>
+        <div class="card text-white mb-5">
+            <div class="zoom" style="background-size: 100%; top: 0%;"></div>
+            <div class="card-img-overlay mt-5">
+                <div class="container-blue">
+                    <h1 class="card-title text-center">HereWeGo</h1>
+                    <div class="slogan-medium">
+                        <h2 class="card-title text-center">Des événements à partager ensemble</h2>
+                    </div>
+                </div>
+                <ul class="nav justify-content-center mt-5">
+                    <li class="nav-item">
+                        <form action="{{ path('event_index') }}" method="get" class="form">
+                            <input class="form-control text-center" type="search" name="texte"
+                                   placeholder="Rechercher un événement"
+                                   size="30" maxlength="10" aria-label="Search">
+                            <button class="btn btn-primary btn-block mt-1 mb-5" type="submit">Recherche</button>
+                        </form>
+                    </li>
+                </ul>
+                <br>
+                <ul class="nav justify-content-center">
+                    <li class="nav-item">
+                        <a href="{{ path('event_new') }}" class="btn btn-primary">Créer un événement</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-<div class="homepage">
-    <h1>HereWeGo</h1>
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
 
-    <h2>Catégories</h2>
-    <div class="row">
-        {% for category in categories %}
-            <div class="col-lg-3 col-xs-6">
-                <div class="small-box" style="background-color: {{ category.color }}">
-                    <div class="inner">
-                        <h3>{{ category.title }}</h3>
-                        <p></p>
+    <div class="homepage">
+        <h2>Événements à la une</h2>
+        <div class="row">
+
+        </div>
+
+        <h2>Catégories</h2>
+        <div class="row">
+            {% for category in categories %}
+                <div class="col-sm-6 col-lg-3">
+                    <div class="small-box" style="background-color: {{ category.color }}">
+                        <div class="inner">
+                            <h3>{{ category.title }}</h3>
+                            <p></p>
+                        </div>
+                        <div class="icon">
+                            <i class="{{ category.icon }}"></i>
+                        </div>
+                        <a href="{{ path('event_index', {category: category.id}) }}" class="small-box-footer">
+                            View more <i class="fas fa-chevron-circle-right"></i>
+                        </a>
                     </div>
-                    <div class="icon">
-                        <i class="{{ category.icon }}"></i>
-                    </div>
-                    <a href="{{ path('event_index', {category: category.id}) }}" class="small-box-footer">
-                        View more <i class="fas fa-chevron-circle-right"></i>
-                    </a>
                 </div>
-            </div>
-        {% else %}
-            <div class="col">Aucune catégorie</div>
-        {% endfor %}
-    </div>
+            {% else %}
+                <div class="col">Aucune catégorie</div>
+            {% endfor %}
+        </div>
 
-</div>
+    </div>
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvel événement{% endblock %}
+{% block title %}Nouvel événement - {{ parent() }}{% endblock %}
 
 {% block body %}
     <h1>Ajouter un nouvel événement</h1>
 
     {{ include('event/account/_form.html.twig') }}
 
-    <a href="{{ path('event_index') }}">Retour à la liste</a>
+    <a href="{{ path('event_account') }}">Retour à la liste</a>
 {% endblock %}
 
 {% block stylesheets %}

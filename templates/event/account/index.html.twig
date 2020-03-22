@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event index{% endblock %}
+{% block title %}Vos événements - {{ parent() }}{% endblock %}
 
 {% block body %}
     <h1>Event index</h1>
@@ -18,14 +18,7 @@
                 <th>Title</th>
                 <th>Start</th>
                 <th>End</th>
-                <th>Address</th>
                 <th>City</th>
-                <th>Lat</th>
-                <th>Lng</th>
-                <th>Phone</th>
-                <th>Website</th>
-                <th>Mail</th>
-                <th>Description</th>
                 <th>Label</th>
                 <th>Created</th>
                 <th>actions</th>
@@ -38,28 +31,21 @@
                 <td>{{ event.title }}</td>
                 <td>{{ event.start ? event.start|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ event.end ? event.end|date('Y-m-d H:i') : '' }}</td>
-                <td>{{ event.address }}</td>
                 <td>{{ event.city }}</td>
-                <td>{{ event.lat }}</td>
-                <td>{{ event.lng }}</td>
-                <td>{{ event.phone }}</td>
-                <td>{{ event.website }}</td>
-                <td>{{ event.mail }}</td>
-                <td>{{ event.description }}</td>
                 <td>{{ event.label }}</td>
                 <td>{{ event.created ? event.created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
-                    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+                    <a href="{{ path('event_show', {'id': event.id}) }}">Voir</a>
+                    <a href="{{ path('event_edit', {'id': event.id}) }}">Éditer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="17">no records found</td>
+                <td colspan="17">Pas encore d'événement proposé.</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('event_new') }}">Create new</a>
+    <a href="{{ path('event_new') }}">Ajouter un nouvel événement</a>
 {% endblock %}
