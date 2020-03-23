@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login!{% endblock %}
+{% block title %}Connexion - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 {% endblock %}
 
@@ -17,9 +16,10 @@
         <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
         <label for="inputEmail" class="sr-only">Adresse email</label>
         <input type="email" name="email" value="{{ last_username }}" id="inputEmail" class="form-control"
-               placeholder="Email address" required autofocus>
+               placeholder="Adresse email" required autofocus>
         <label for="inputPassword" class="sr-only">Mot de passe</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe"
+               required>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
@@ -28,7 +28,7 @@
             <label for="remember_me">Je souhaite rester connecté 30 jours</label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">
-            Sign in
+            Se connecter
         </button>
     </form>
 {% endblock %}

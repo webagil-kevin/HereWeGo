@@ -35,13 +35,19 @@
         </div>
     </div>
 
-    <div class="row">
-        {%  for event in events %}
-            <div class="col-md-4 col-lg-3">
-                {% include 'event/_event_card.html.twig' %}
-            </div>
-        {% endfor %}
-    </div>
+    {% if events is not empty %}
+        <div class="row">
+            {% for event in events %}
+                <div class="col-md-4 col-lg-3">
+                    {% include 'event/_event_card.html.twig' %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-danger">Aucun événement trouvé. Essayez avec d'autres critères,
+            vous finirez par trouver votre bonheur.
+        </div>
+    {% endif %}
 
     <div class="pagination">
         {{ knp_pagination_render(events) }}
