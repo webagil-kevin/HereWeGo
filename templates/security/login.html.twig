@@ -14,18 +14,18 @@
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
+        <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
+        <label for="inputEmail" class="sr-only">Adresse email</label>
         <input type="email" name="email" value="{{ last_username }}" id="inputEmail" class="form-control"
                placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
+        <label for="inputPassword" class="sr-only">Mot de passe</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
         <div class="checkbox mb-3">
             <input type="checkbox" id="remember_me" name="_remember_me">
-            <label for="remember_me">Remember me</label>
+            <label for="remember_me">Je souhaite rester connecté 30 jours</label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">
             Sign in
