@@ -22,17 +22,17 @@ easy_admin:
           - lastname
           - address
           - city
-          -   property: 'avatarFile'
-              type: 'file'
-          -   property: 'roles'
-              type: 'choice'
-              type_options:
-                mapped: true
-                expanded: true
-                multiple: true
-                choices:
-                  'Administrateur': 'ROLE_ADMIN'
-                  'Annonceur': 'ROLE_ORG'
+          - property: 'avatarFile'
+            type: 'file'
+          - property: 'roles'
+            type: 'choice'
+            type_options:
+              mapped: true
+              expanded: true
+              multiple: true
+              choices:
+                'Administrateur': 'ROLE_ADMIN'
+                'Annonceur': 'ROLE_ORG'
 
     UserOrg:
       class: App\Entity\User
@@ -68,27 +68,28 @@ easy_admin:
         fields:
           - title
           - category
-          -   property: 'start'
-              type: 'datetime'
-              type_options:
-                html5: true
-                widget: 'single_text'
-          -   property: 'end'
-              type: 'datetime'
-              type_options:
-                html5: true
-                widget: 'single_text'
+          - property: 'start'
+            type: 'datetime'
+            type_options:
+              html5: true
+              widget: 'single_text'
+          - property: 'end'
+            type: 'datetime'
+            type_options:
+              html5: true
+              widget: 'single_text'
           - address
-          -   property: 'city'
-              type: 'easyadmin_autocomplete'
-              type_options:
-                class: App\Entity\City
+          - property: 'city'
+            type: 'easyadmin_autocomplete'
+            type_options:
+              class: App\Entity\City
           - mail
           - phone
           - website
           - description
-          -   property: 'imageFile'
-              type: 'file'
+          - property: 'imageFile'
+            type: 'file'
+          - registers
 
     Category:
       class: App\Entity\Category
@@ -110,24 +111,24 @@ easy_admin:
 
   design:
     menu:
-      -   label: 'Menu'
-      -   label: 'Membres'
-          icon: 'users'
-          children:
-            -   entity: 'UserAdmin'
-                label: 'Administrateurs'
-                icon: 'user-cog'
-            -   entity: 'UserOrg'
-                label: 'Organisateurs'
-                icon: 'user-edit'
-            -   entity: 'User'
-                label: 'Utilisateurs'
-                icon: 'user'
-      -   entity: 'Event'
-          label: 'Événements'
-          icon: 'calendar'
-      -   entity: 'Category'
-          label: 'Catégories'
-          icon: 'th-list'
-      -   entity: 'City'
-          label: 'Villes'
+      - label: 'Menu'
+      - label: 'Membres'
+        icon: 'users'
+        children:
+          - entity: 'UserAdmin'
+            label: 'Administrateurs'
+            icon: 'user-cog'
+          - entity: 'UserOrg'
+            label: 'Organisateurs'
+            icon: 'user-edit'
+          - entity: 'User'
+            label: 'Utilisateurs'
+            icon: 'user'
+      - entity: 'Event'
+        label: 'Événements'
+        icon: 'calendar'
+      - entity: 'Category'
+        label: 'Catégories'
+        icon: 'th-list'
+      - entity: 'City'
+        label: 'Villes'

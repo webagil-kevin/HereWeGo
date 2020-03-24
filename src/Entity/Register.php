@@ -56,4 +56,11 @@ class Register
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $userId = (string)$this->getUser()->getId();
+        $eventId = (string)$this->getEvent()->getId();
+        return 'Membre ' . $userId . ' / Événement ' . $eventId;
+    }
 }
