@@ -47,5 +47,7 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account, roles: ROLE_USER }
+        - { path: ^/account/events, roles: ROLE_ORG }
+        - { path: ^/account/event, roles: ROLE_ORG }
         - { path: ^/change-password, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
