@@ -45,8 +45,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/account/event, roles: ROLE_ORG }
-        - { path: ^/account, roles: ROLE_USER }
-        - { path: ^/change-password, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: '^/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/account/event', roles: ROLE_ORG }
+        - { path: '^/account', roles: ROLE_USER }
+        - { path: '^/change-password', roles: IS_AUTHENTICATED_FULLY }
+        - { path: '^/admin', roles: ROLE_ADMIN }

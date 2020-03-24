@@ -63,18 +63,13 @@ class EventController extends AbstractController
      * @Route("/account/events", name="event_account", methods={"GET"})
      * @param EventRepository $eventRepository
      * @param UserInterface   $user
-     * @param Event           $event
      *
      * @return Response
      */
-    public function account(EventRepository $eventRepository, UserInterface $user, Event $event): Response
+    public function account(EventRepository $eventRepository, UserInterface $user): Response
     {
-        $this->denyAccessUnlessGranted(null, $event);
-
         return $this->render('event/account/index.html.twig', [
-            'events' => $eventRepository->findBy([
-                'User' => $user,
-            ]),
+            'events' => $eventRepository->findBy(['User' => $user], ['id' => 'DESC']),
         ]);
     }
 
@@ -82,15 +77,12 @@ class EventController extends AbstractController
      * @Route("/account/event/new", name="event_new", methods={"GET","POST"})
      * @param Request       $request
      * @param UserInterface $user
-     * @param Event         $event
      *
      * @return Response
      * @throws Exception
      */
-    public function new(Request $request, UserInterface $user, Event $event): Response
+    public function new(Request $request, UserInterface $user): Response
     {
-        $this->denyAccessUnlessGranted(null, $event);
-
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);

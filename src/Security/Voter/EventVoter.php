@@ -18,7 +18,7 @@ class EventVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['MANAGE', 'CRUD'])
+        return in_array($attribute, ['CRUD'])
             && $subject instanceof \App\Entity\Event;
     }
 
