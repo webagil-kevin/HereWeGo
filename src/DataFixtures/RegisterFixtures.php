@@ -14,14 +14,14 @@ class RegisterFixtures extends Fixture implements DependentFixtureInterface
 
         $listEventUser = [];
 
-        // On crée 200 inscriptions à des événements
-        for ($i = 0; $i < 200; $i++) {
+        // On crée 1000 inscriptions à des événements
+        for ($i = 0; $i < 1000; $i++) {
 
             // Chercher en boucle une nouvelle paire id/event non utilisée
             $continueSearch = true;
             while ($continueSearch === true) {
                 $event = $manager->getRepository(\App\Entity\Event::class)->find(random_int(1, 100));
-                $user = $manager->getRepository(\App\Entity\User::class)->find(random_int(2, 10));
+                $user = $manager->getRepository(\App\Entity\User::class)->find(random_int(12, 211));
                 $aleatoryEventUser = ['event' => $event, 'user' => $user];
 
                 if (!in_array(implode('-', $aleatoryEventUser), $listEventUser)) {

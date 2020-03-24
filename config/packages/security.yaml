@@ -13,7 +13,7 @@ security:
                 property: email
 
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_ALLOWED_TO_SWITCH, ROLE_ADMIN_EVENT]
+        ROLE_ADMIN: [ROLE_ALLOWED_TO_SWITCH]
 
     firewalls:
         dev:
@@ -46,8 +46,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/account, roles: ROLE_USER }
-        - { path: ^/account/events, roles: ROLE_ORG }
         - { path: ^/account/event, roles: ROLE_ORG }
+        - { path: ^/account, roles: ROLE_USER }
         - { path: ^/change-password, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin, roles: ROLE_ADMIN }

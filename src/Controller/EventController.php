@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\Event;
 use App\Entity\EventSearch;
 use App\Form\EventSearchType;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use DateTime;
+use Exception;
 use Faker;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,11 +63,14 @@ class EventController extends AbstractController
      * @Route("/account/events", name="event_account", methods={"GET"})
      * @param EventRepository $eventRepository
      * @param UserInterface   $user
+     * @param Event           $event
      *
      * @return Response
      */
-    public function account(EventRepository $eventRepository, UserInterface $user): Response
+    public function account(EventRepository $eventRepository, UserInterface $user, Event $event): Response
     {
+        $this->denyAccessUnlessGranted(null, $event);
+
         return $this->render('event/account/index.html.twig', [
             'events' => $eventRepository->findBy([
                 'User' => $user,
@@ -77,13 +80,17 @@ class EventController extends AbstractController
 
     /**
      * @Route("/account/event/new", name="event_new", methods={"GET","POST"})
-     * @param Request $request
+     * @param Request       $request
+     * @param UserInterface $user
+     * @param Event         $event
      *
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
-    public function new(Request $request, UserInterface $user): Response
+    public function new(Request $request, UserInterface $user, Event $event): Response
     {
+        $this->denyAccessUnlessGranted(null, $event);
+
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -92,8 +99,8 @@ class EventController extends AbstractController
         $faker = Faker\Factory::create('fr_FR');
         $event->setLabel(strtoupper(substr($faker->uuid, 1, 5)));
 
-        $event->setCreated(new \DateTime());
-        $event->setUpdated(new \DateTime());
+        $event->setCreated(new DateTime());
+        $event->setUpdated(new DateTime());
         $event->setUser($user);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -119,7 +126,8 @@ class EventController extends AbstractController
      */
     public function show(Event $event): Response
     {
-        $this->denyAccessUnlessGranted('MANAGE', $event);
+        $this->denyAccessUnlessGranted('CRUD', $event);
+
         return $this->render('event/account/show.html.twig', [
             'event' => $event,
         ]);
@@ -134,7 +142,8 @@ class EventController extends AbstractController
      */
     public function edit(Request $request, Event $event): Response
     {
-        $this->denyAccessUnlessGranted('MANAGE', $event);
+        $this->denyAccessUnlessGranted('CRUD', $event);
+
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
@@ -161,8 +170,9 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event): Response
     {
-        $this->denyAccessUnlessGranted('MANAGE', $event);
-        if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
+        $this->denyAccessUnlessGranted('CRUD', $event);
+
+        if ($this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($event);
             $entityManager->flush();

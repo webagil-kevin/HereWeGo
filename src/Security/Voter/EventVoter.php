@@ -4,13 +4,21 @@ namespace App\Security\Voter;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class EventVoter extends Voter
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['MANAGE'])
+        return in_array($attribute, ['MANAGE', 'CRUD'])
             && $subject instanceof \App\Entity\Event;
     }
 
@@ -26,11 +34,13 @@ class EventVoter extends Voter
             return false;
         }
 
+        if (!$this->security->isGranted('ROLE_ORG')) {
+            return false;
+        }
+
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case 'MANAGE':
-                // logic to determine if the user can EDIT
-                // return true or false
+            case 'CRUD':
                 return $event->getUser()->getId() === $user->getId();
                 break;
         }
