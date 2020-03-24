@@ -70,8 +70,8 @@ class EventRepository extends ServiceEntityRepository
     private function findNotExpiredQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('e')
-                    ->andWhere('e.start >= CURRENT_DATE() OR (e.start < CURRENT_DATE() AND e.end >= CURRENT_DATE())')
-                    ->orderBy('e.start', 'DESC');
+            ->andWhere('e.start >= CURRENT_DATE() OR (e.start < CURRENT_DATE() AND e.end >= CURRENT_DATE())')
+            ->orderBy('e.start', 'ASC');
     }
 
     // /**

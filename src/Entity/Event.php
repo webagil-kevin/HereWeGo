@@ -94,11 +94,6 @@ class Event
     private $label;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $created;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Register", mappedBy="event", orphanRemoval=true)
      */
     private $registers;
@@ -122,6 +117,16 @@ class Event
      * @var string|null
      */
     private $imageName;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="events")
+     */
+    private $User;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
 
     /**
      * @ORM\Column(type="datetime")
@@ -394,6 +399,18 @@ class Event
     public function setImageName(?string $imageName): self
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }

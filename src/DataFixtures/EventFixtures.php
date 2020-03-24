@@ -17,12 +17,13 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         // On configure dans quelles langues nous voulons nos données
         $faker = Faker\Factory::create('fr_FR');
 
-        // On créé 100 événements
+        // On crée 100 événements
         for ($i = 0; $i < 100; $i++) {
             $city = $manager->getRepository(\App\Entity\City::class)->find(random_int(1, 36500));
             $category = $manager->getRepository(\App\Entity\Category::class)->find(random_int(1, 2));
-            $start = $faker->dateTimeInInterval($startDate = '-30 days', $interval = '+90 days', 'Europe/Paris');
-            $end = $start->modify('+'.random_int(1, 72).' hours');
+            $user = $manager->getRepository(\App\Entity\User::class)->find(random_int(2, 10));
+            $start = $faker->dateTimeInInterval($startDate = '-10 days', $interval = '+90 days', 'Europe/Paris');
+            $end = $start->modify('+' . random_int(1, 72) . ' hours');
 
             $event = new Event();
             $event
@@ -35,22 +36,13 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
                 ->setLat(null)
                 ->setLng(null)
                 ->setPhone($faker->isbn10)
-                ->setWebsite('https://'.$faker->domainName)
+                ->setWebsite('https://' . $faker->domainName)
                 ->setDescription($faker->paragraph($nbSentences = 4, $variableNbSentences = true))
                 ->setLabel(strtoupper(substr($faker->uuid, 1, 5)))
+                ->setUser($user)
                 ->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
                 ->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
             ;
-
-            // Inscription à l'événement d'un nombre aléatoire de membres (entre 1 et 10)
-            /*
-             * Ne fonctionne pas, il faut passer par \App\Entity\Register
-             *
-            for ($m = 0, $mMax = random_int(1, 10); $m < $mMax; $m++) {
-                $member = $manager->getRepository(\App\Entity\User::class)->find(random_int(1, 300));
-                $event->addRegister($member);
-            }
-            */
 
             $manager->persist($event);
 

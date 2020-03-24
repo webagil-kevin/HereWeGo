@@ -27,43 +27,59 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         // On configure dans quelles langues nous voulons nos données
         $faker = Faker\Factory::create('fr_FR');
 
-        // On créé un admin
+        // On créé 1 admin
         $personne = new User();
-        $personne->setEmail('admin@admin.fr');
-        $personne->setPassword($this->passwordEncoder->encodePassword(
-            $personne,
-            'password'
-        ));
-        $personne->setRoles(['ROLE_ADMIN']);
-        $personne->setFirstname($faker->firstName());
-        $personne->setLastname($faker->lastName);
-        $personne->setAddress($faker->streetAddress);
-        $personne->setCity('');
-        $personne->setPhone($faker->isbn10);
-        $personne->setLat(null);
-        $personne->setLng(null);
-        $personne->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
-        $personne->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
+        $personne
+            ->setEmail('admin@herewego.test')
+            ->setPassword($this->passwordEncoder->encodePassword($personne, 'password'))
+            ->setRoles(['ROLE_ADMIN'])
+            ->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName)
+            ->setAddress($faker->streetAddress)
+            ->setCity('')
+            ->setPhone($faker->isbn10)
+            ->setLat(null)
+            ->setLng(null)
+            ->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
+            ->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
 
         $manager->persist($personne);
 
-        // On crée 300 utilisateurs
-        for ($i = 0; $i < 300; $i++) {
+        // On crée 9 organisateurs
+        for ($i = 0; $i < 10; $i++) {
             $personne = new User();
-            $personne->setEmail($faker->email);
-            $personne->setPassword($this->passwordEncoder->encodePassword(
-                $personne,
-                'password'
-            ));
-            $personne->setFirstname($faker->firstName());
-            $personne->setLastname($faker->lastName);
-            $personne->setAddress($faker->streetAddress);
-            $personne->setCity('');
-            $personne->setPhone($faker->isbn10);
-            $personne->setLat(null);
-            $personne->setLng(null);
-            $personne->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
-            $personne->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
+            $personne
+                ->setEmail('org' . $i . '@herewego.test')
+                ->setPassword($this->passwordEncoder->encodePassword($personne, 'password'))
+                ->setRoles(['ROLE_ORG'])
+                ->setFirstname($faker->firstName())
+                ->setLastname($faker->lastName)
+                ->setAddress($faker->streetAddress)
+                ->setCity('')
+                ->setPhone($faker->isbn10)
+                ->setLat(null)
+                ->setLng(null)
+                ->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
+                ->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
+
+            $manager->persist($personne);
+        }
+
+        // On crée 200 utilisateurs
+        for ($i = 0; $i < 200; $i++) {
+            $personne = new User();
+            $personne
+                ->setEmail($faker->email)
+                ->setPassword($this->passwordEncoder->encodePassword($personne, 'password'))
+                ->setFirstname($faker->firstName())
+                ->setLastname($faker->lastName)
+                ->setAddress($faker->streetAddress)
+                ->setCity('')
+                ->setPhone($faker->isbn10)
+                ->setLat(null)
+                ->setLng(null)
+                ->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
+                ->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
 
             $manager->persist($personne);
 

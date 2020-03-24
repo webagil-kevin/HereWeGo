@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 class EventController extends AbstractController
@@ -61,13 +62,16 @@ class EventController extends AbstractController
     /**
      * @Route("/account/events", name="event_account", methods={"GET"})
      * @param EventRepository $eventRepository
+     * @param UserInterface   $user
      *
      * @return Response
      */
-    public function account(EventRepository $eventRepository): Response
+    public function account(EventRepository $eventRepository, UserInterface $user): Response
     {
         return $this->render('event/account/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'events' => $eventRepository->findBy([
+                'User' => $user,
+            ]),
         ]);
     }
 
@@ -78,7 +82,7 @@ class EventController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserInterface $user): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
@@ -89,6 +93,8 @@ class EventController extends AbstractController
         $event->setLabel(strtoupper(substr($faker->uuid, 1, 5)));
 
         $event->setCreated(new \DateTime());
+        $event->setUpdated(new \DateTime());
+        $event->setUser($user);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -113,6 +119,7 @@ class EventController extends AbstractController
      */
     public function show(Event $event): Response
     {
+        $this->denyAccessUnlessGranted('MANAGE', $event);
         return $this->render('event/account/show.html.twig', [
             'event' => $event,
         ]);
@@ -127,6 +134,7 @@ class EventController extends AbstractController
      */
     public function edit(Request $request, Event $event): Response
     {
+        $this->denyAccessUnlessGranted('MANAGE', $event);
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
@@ -153,6 +161,7 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event): Response
     {
+        $this->denyAccessUnlessGranted('MANAGE', $event);
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($event);

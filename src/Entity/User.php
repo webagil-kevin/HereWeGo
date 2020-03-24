@@ -113,10 +113,16 @@ class User implements UserInterface
      */
     private $updated;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="User")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->registers = new ArrayCollection();
         $this->created = new \DateTime();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -358,5 +364,36 @@ class User implements UserInterface
 
     public function __toString() {
         return $this->email;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getUser() === $this) {
+                $event->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
