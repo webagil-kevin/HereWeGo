@@ -1,4 +1,11 @@
 <div class="card mb-4">
+    {% if event.imageFile is not null %}
+        <img class="card-img-top" src="{{ vich_uploader_asset(event, 'imageFile') |
+        imagine_filter('event_card_thumb') }}" alt="Card image cap">
+    {% else %}
+        <img class="card-img-top" src="{{ asset('img/event-card.jpg') |
+        imagine_filter('event_card_thumb') }}" alt="Card image cap" style="opacity: 0.25;">
+    {% endif %}
     <div class="card-body">
         <h5 class="card-title">
             <a href="{{ path('event', {id: event.id}) }}">
