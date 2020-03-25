@@ -47,12 +47,12 @@ class UserRegistrationFormType extends AbstractType
                 'placeholder'          => 'Choisir ...'
             ])
             ->add('avatarFile', FileType::class, [
-                'label' => 'Image avatar (Format .JPG)',
-                'required' => false,
+                'label'       => 'Image avatar (Format .JPG)',
+                'required'    => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '4096k',
-                        'mimeTypes' => [
+                        'maxSize'          => '4096k',
+                        'mimeTypes'        => [
                             'image/jpeg'
                         ],
                         'mimeTypesMessage' => 'Sélectionnez une image valide.',

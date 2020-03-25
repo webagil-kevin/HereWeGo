@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserRegistrationFormType;
 use App\Security\LoginFormAuthenticator;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,6 +52,7 @@ class SecurityController extends AbstractController
      * @param LoginFormAuthenticator       $formAuthenticator
      *
      * @return Response|null
+     * @throws \Exception
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator): ?Response
     {
@@ -65,6 +66,9 @@ class SecurityController extends AbstractController
                 $user,
                 $form['plainPassword']->getData()
             ));
+
+            $user->setCreated(new DateTime());
+            $user->setUpdated(new DateTime());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);

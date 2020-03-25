@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Serializable;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -20,7 +21,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * )
  * @Vich\Uploadable
  */
-class User implements UserInterface
+class User implements UserInterface, Serializable
 {
     /**
      * @ORM\Id()
@@ -122,7 +123,6 @@ class User implements UserInterface
     public function __construct()
     {
         $this->registers = new ArrayCollection();
-        $this->created = new \DateTime();
         $this->events = new ArrayCollection();
     }
 
@@ -397,5 +397,23 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->email;
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->password,
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        [
+            $this->id,
+            $this->email,
+            $this->password,
+        ] = unserialize($serialized);
     }
 }
