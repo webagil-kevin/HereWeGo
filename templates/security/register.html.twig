@@ -5,11 +5,12 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
 
-    <h1>Créer un compte</h1>
+    <h1>Créer mon compte</h1>
 
     <div class="container">
         <div class="row">
@@ -23,4 +24,11 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/select2.fr.js') }}"></script>
+    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
 {% endblock %}

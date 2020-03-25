@@ -9,19 +9,22 @@ easy_admin:
         dql_filter: "entity.roles LIKE '%%ROLE_ADMIN%%'"
         fields: &listUserFields
           - id
-          - { property: 'avatar', template: '/admin/_user_avatar.html.twig' }
-          - { property: 'email', type: 'email' }
-          - firstname
-          - lastname
-          - city
-          - registers
+          - { property: 'avatar', template: '/admin/_user_avatar.html.twig', label: 'Avatar'}
+          - { property: 'email', type: 'email', label: 'Email'}
+          - { property: 'firstname', label: 'Nom'}
+          - { property: 'lastname', label: 'Prénom'}
+          - { property: 'city', label: 'Ville (Code postal)'}
+          - { property: 'registers', label: 'Inscriptions événements'}
       form:
         fields: &formUserFields
-          - { property: 'email', type: 'email' }
-          - firstname
-          - lastname
-          - address
-          - city
+          - { property: 'email', type: 'email', label: 'Email'}
+          - { property: 'firstname', label: 'Nom'}
+          - { property: 'lastname', label: 'Prénom'}
+          - { property: 'address', label: 'Adresse'}
+          - property: 'city'
+            type: 'easyadmin_autocomplete'
+            type_options:
+              class: App\Entity\City
           - property: 'avatarFile'
             type: 'file'
           - property: 'roles'

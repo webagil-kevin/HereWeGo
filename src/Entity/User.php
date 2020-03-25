@@ -57,9 +57,10 @@ class User implements UserInterface
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $city;
+    private $City;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -190,14 +191,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCity(): ?City
     {
-        return $this->city;
+        return $this->City;
     }
 
-    public function setCity(string $city): self
+    public function setCity(City $City): self
     {
-        $this->city = $city;
+        $this->City = $City;
 
         return $this;
     }
@@ -362,10 +363,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function __toString() {
-        return $this->email;
-    }
-
     /**
      * @return Collection|Event[]
      */
@@ -395,5 +392,10 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->email;
     }
 }

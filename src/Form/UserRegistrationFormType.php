@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class UserRegistrationFormType extends AbstractType
 {
@@ -26,7 +27,7 @@ class UserRegistrationFormType extends AbstractType
                         'message' => 'Choose a password!'
                     ]),
                     new Length([
-                        'min' => 7,
+                        'min'        => 7,
                         'minMessage' => 'Come on, you can think of a password longer than that!'
                     ])
                 ]
@@ -35,8 +36,16 @@ class UserRegistrationFormType extends AbstractType
             ->add('firstname')
             ->add('phone')
             ->add('address')
-            ->add('cp')
-            ->add('city')
+            ->add('city', Select2EntityType::class, [
+                'remote_route'         => 'city_select',
+                'class'                => 'App\Entity\City',
+                'required'             => true,
+                'multiple'             => false,
+                'minimum_input_length' => 3,
+                'property'             => 'name',
+                'language'             => 'fr',
+                'placeholder'          => 'Choisir ...'
+            ])
             ->add('avatarFile', FileType::class, [
                 'label' => 'Image avatar (Format .JPG)',
                 'required' => false,

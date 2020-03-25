@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\City;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -24,58 +25,55 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        // On configure dans quelles langues nous voulons nos données
-        $faker = Faker\Factory::create('fr_FR');
+        // On crée 1 admin
+        $this->createUser($manager, 1, 'ROLE_ADMIN');
 
-        // On créé 1 admin
-        $personne = new User();
-        $personne
-            ->setEmail('admin@herewego.test')
-            ->setPassword($this->passwordEncoder->encodePassword($personne, 'password'))
-            ->setRoles(['ROLE_ADMIN'])
-            ->setFirstname($faker->firstName())
-            ->setLastname($faker->lastName)
-            ->setAddress($faker->streetAddress)
-            ->setCity('')
-            ->setPhone($faker->isbn10)
-            ->setLat(null)
-            ->setLng(null)
-            ->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
-            ->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
-
-        $manager->persist($personne);
-
-        // On crée 9 organisateurs
-        for ($i = 0; $i < 10; $i++) {
-            $personne = new User();
-            $personne
-                ->setEmail('org' . $i . '@herewego.test')
-                ->setPassword($this->passwordEncoder->encodePassword($personne, 'password'))
-                ->setRoles(['ROLE_ORG'])
-                ->setFirstname($faker->firstName())
-                ->setLastname($faker->lastName)
-                ->setAddress($faker->streetAddress)
-                ->setCity('')
-                ->setPhone($faker->isbn10)
-                ->setLat(null)
-                ->setLng(null)
-                ->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
-                ->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'));
-
-            $manager->persist($personne);
-        }
+        // On crée 10 organisateurs
+        $this->createUser($manager, 10, 'ROLE_ORG');
 
         // On crée 200 utilisateurs
-        for ($i = 0; $i < 200; $i++) {
+        $this->createUser($manager, 200);
+    }
+
+    public function getDependencies()
+    {
+        return [
+            CityFixtures::class,
+        ];
+    }
+
+    private function createUser(ObjectManager $manager, $nbUsers, $roleUsers = null, $password = 'password')
+    {
+        $nbUsers = (int)$nbUsers > 0 ? (int)$nbUsers : 1;
+
+        $faker = Faker\Factory::create('fr_FR');
+
+        // on crée les utilisateurs
+        for ($i = 0; $i < $nbUsers; $i++) {
+
+            $roles = [];
+            $city = $manager->getRepository(City::class)->find(random_int(1, 36500));
+
+            if ($roleUsers === 'ROLE_ADMIN') {
+                $email = 'admin' . ($i + 1) . '@herewego.test';
+                $roles[] = 'ROLE_ADMIN';
+            } elseif ($roleUsers === 'ROLE_ORG') {
+                $email = 'org' . ($i + 1) . '@herewego.test';
+                $roles[] = 'ROLE_ORG';
+            } else {
+                $email = 'user' . ($i + 1) . '@herewego.test';
+            }
+
             $personne = new User();
             $personne
-                ->setEmail($faker->email)
-                ->setPassword($this->passwordEncoder->encodePassword($personne, 'password'))
+                ->setEmail($email)
+                ->setPassword($this->passwordEncoder->encodePassword($personne, $password))
+                ->setRoles($roles)
                 ->setFirstname($faker->firstName())
                 ->setLastname($faker->lastName)
                 ->setAddress($faker->streetAddress)
-                ->setCity('')
-                ->setPhone($faker->isbn10)
+                ->setCity($city)
+                ->setPhone('0' . random_int(100000001, 999999999))
                 ->setLat(null)
                 ->setLng(null)
                 ->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
@@ -92,12 +90,5 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->flush();
         $manager->clear();
-    }
-
-    public function getDependencies()
-    {
-        return array(
-            CityFixtures::class,
-        );
     }
 }
