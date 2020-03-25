@@ -137,6 +137,11 @@ class Event
      */
     private $updated;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $views;
+
     public function __construct()
     {
         $this->registers = new ArrayCollection();
@@ -429,7 +434,20 @@ class Event
         return $this;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return (string)$this->getTitle();
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): self
+    {
+        $this->views = $views;
+
+        return $this;
     }
 }

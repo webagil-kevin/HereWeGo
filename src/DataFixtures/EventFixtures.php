@@ -38,6 +38,7 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
                 ->setDescription($faker->paragraph($nbSentences = 4, $variableNbSentences = true))
                 ->setLabel(strtoupper(substr($faker->uuid, 1, 5)))
                 ->setUser($user)
+                ->setViews(random_int(1, 500))
                 ->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
                 ->setUpdated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
             ;

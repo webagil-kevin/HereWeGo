@@ -54,6 +54,13 @@ class EventController extends AbstractController
      */
     public function event(Event $event): Response
     {
+        // Update number of page views
+        $nbViews = (int)$event->getViews();
+        $event->setViews($nbViews + 1);
+        $form = $this->getDoctrine()->getManager();
+        $form->persist($event);
+        $form->flush();
+
         return $this->render('event/event.html.twig', [
             'event' => $event,
         ]);
