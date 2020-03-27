@@ -55,32 +55,40 @@
     </style>
 
     <div class="homepage">
-        <h2>Événements à la une</h2>
-        <div class="row">
-
-        </div>
-
-        <h2>Catégories</h2>
-        <div class="row">
-            {% for category in categories %}
-                <div class="col-sm-6 col-lg-3">
-                    <div class="small-box" style="background-color: {{ category.color }}">
-                        <div class="inner">
-                            <h3>{{ category.title }}</h3>
-                            <p></p>
-                        </div>
-                        <div class="icon">
-                            <i class="{{ category.icon }}"></i>
-                        </div>
-                        <a href="{{ path('event_index', {categories: category.id}) }}" class="small-box-footer">
-                            Voir les événements <i class="fas fa-chevron-circle-right"></i>
-                        </a>
+        {% if eventsBestPopularity is not empty %}
+            <h2>Événements les plus populaires</h2>
+            <div class="row">
+                {% for event in eventsBestPopularity %}
+                    <div class="col-md-4 col-lg-3">
+                        {% include 'event/_event_card.html.twig' %}
                     </div>
-                </div>
-            {% else %}
-                <div class="col">Aucune catégorie</div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if categories is not empty %}
+            <h2>Catégories</h2>
+            <div class="row">
+                {% for category in categories %}
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="small-box" style="background-color: {{ category.color }}">
+                            <div class="inner">
+                                <h3>{{ category.title }}</h3>
+                                <p></p>
+                            </div>
+                            <div class="icon">
+                                <i class="{{ category.icon }}"></i>
+                            </div>
+                            <a href="{{ path('event_index', {categories: category.id}) }}" class="small-box-footer">
+                                Voir les événements <i class="fas fa-chevron-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col">Aucune catégorie</div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
     </div>
 {% endblock %}

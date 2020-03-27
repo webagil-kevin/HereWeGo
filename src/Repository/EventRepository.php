@@ -78,6 +78,22 @@ class EventRepository extends ServiceEntityRepository
         return $query->getQuery();
     }
 
+
+    /**
+     * @return Event[] Returns an array of Event objects
+     */
+    public function findBestPopularity($limit = 4)
+    {
+        $query = $this->findNotExpiredQuery();
+
+        $query = $query
+            ->orderBy('e.views', 'DESC')
+            ->addOrderBy('e.start', 'ASC')
+            ->setMaxResults((int)$limit);
+
+        return $query->getQuery()->getResult();
+    }
+
     private function findNotExpiredQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('e')
