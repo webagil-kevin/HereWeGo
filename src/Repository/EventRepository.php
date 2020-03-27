@@ -59,10 +59,21 @@ class EventRepository extends ServiceEntityRepository
         }
 
         if ($search->getCities()) {
-            $query = $query
-                ->andWhere(':city = e.city')
-                ->setParameter('city', $search->getCities());
+            if ($search->getDistance()) {
+                $query = $query
+                    ->leftJoin('e.city', 'c')
+                    ->addSelect('c')
+                    ->andWhere('(6372.797560856 * 2 * ASIN(SQRT( POWER(SIN((c.lat - :lat) * pi()/180 / 2), 2) + COS(c.lat * pi()/180) * COS(:lat * pi()/180) * POWER(SIN((c.lng - :lng) * pi()/180 / 2), 2) ))) <= :distance')
+                    ->setParameter('lat', $search->getCities()->getLat())
+                    ->setParameter('lng', $search->getCities()->getLng())
+                    ->setParameter('distance', $search->getDistance());
+            } else {
+                $query = $query
+                    ->andWhere(':city = e.city')
+                    ->setParameter('city', $search->getCities());
+            }
         }
+
 
         return $query->getQuery();
     }

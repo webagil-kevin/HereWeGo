@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Validator\Constraints\Date;
 
 class EventSearch {
@@ -20,6 +21,11 @@ class EventSearch {
      * @var object|null
      */
     private $cities;
+
+    /**
+     * @var integer|null
+     */
+    private $distance;
 
     /**
      * @var Date|null
@@ -85,6 +91,25 @@ class EventSearch {
     public function setCities(object $cities): EventSearch
     {
         $this->cities = $cities;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getDistance(): ?int
+    {
+        return $this->distance;
+    }
+
+    /**
+     * @param int|null $distance
+     *
+     * @return EventSearch
+     */
+    public function setDistance(int $distance): EventSearch
+    {
+        $this->distance = $distance;
         return $this;
     }
 

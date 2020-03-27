@@ -15,7 +15,7 @@ class CategoryFixtures extends Fixture
 
         $catList = [
             ['Sports', '#c7eb14', '	fas fa-futbol'],
-            ['Musique', '#FA3268', 'fas fa-user'],
+            ['Musique', '#FA3268', 'fas fa-music'],
         ];
 
         foreach($catList AS $k => $catArray) {
