@@ -37,7 +37,12 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('event_index') }}">Événements</a>
+                        {% if app.user is not null %}
+                            <a class="nav-link"
+                               href="{{ path('event_index', {'cities': app.user.city.id}) }}">Événements</a>
+                        {% else %}
+                            <a class="nav-link" href="{{ path('event_index') }}">Événements</a>
+                        {% endif %}
                     </li>
                 </ul>
                 <form action="{{ path('event_index') }}" method="get" class="form-inline my-2 my-lg-0">
