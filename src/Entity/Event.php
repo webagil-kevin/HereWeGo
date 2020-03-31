@@ -450,4 +450,22 @@ class Event
 
         return $this;
     }
+
+    /**
+     * Permet de savoir si l'utilisateur courant participe à l'événement
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isRegisterByUser(User $user): bool
+    {
+        foreach ($this->getRegisters() as $register) {
+            if ($register->getUser() === $user) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

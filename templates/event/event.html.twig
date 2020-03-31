@@ -15,6 +15,54 @@
     <div class="row">
         <div class="col">{{ event.description | nl2br }}</div>
     </div>
+    <div class="row js-register">
+        <a href="{{ is_granted('ROLE_USER') ? path('event_user_register', {'id': event.id , 'token': csrf_token
+            (app.user.email)}) : path
+            ('app_login') }}"
+           class="btn {{ event.registerByUser(app.user) ? 'btn-success' : 'btn-primary' }}">
+            <i class="fas {{ event.registerByUser(app.user) ? 'fa-check-circle' : 'fa-plus-circle' }}"></i>
+            <span class="js-register-label">{{ event.registerByUser(app.user) ? 'Je participe' : 'Participer' }}</span>
+            (<span class="js-register-nb">{{ event.registers | length }}</span>
+            participant{{ event.registers | length > 1 ? 's' : '' }})
+        </a>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/axios.min.js') }}"></script>
+    <script>
+        function onClickBtnRegister(event) {
+            event.preventDefault();
+
+            const registerLink = this.querySelector('a');
+            const registerIcon = this.querySelector('i');
+            const registerLabel = this.querySelector('span.js-register-label');
+            const registerNb = this.querySelector('span.js-register-nb');
+
+            axios.get(registerLink.href).then(function (response) {
+                console.log(response);
+                if (response.data.action === 'registered') {
+                    registerLink.className = "btn btn-success";
+                    registerIcon.className = "fas fa-check-circle";
+                    registerLabel.innerHTML = 'Je participe';
+                    registerNb.innerHTML = response.data.registers;
+                } else if (response.data.action === 'unregistered') {
+                    registerLink.className = "btn btn-primary";
+                    registerIcon.className = "fas fa-plus-circle";
+                    registerLabel.innerHTML = 'Participer';
+                    registerNb.innerHTML = response.data.registers;
+                }
+            })
+        }
+
+        document.querySelectorAll('div.js-register').forEach(function (link) {
+            link.addEventListener('click', onClickBtnRegister);
+        })
+    </script>
 {% endblock %}
 
 

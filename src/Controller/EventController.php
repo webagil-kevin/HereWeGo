@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\EventSearch;
+use App\Entity\Register;
 use App\Form\EventSearchType;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Repository\RegisterRepository;
 use DateTime;
 use Exception;
 use Faker;
@@ -180,5 +182,71 @@ class EventController extends AbstractController
         }
 
         return $this->redirectToRoute('event_account');
+    }
+
+    /**
+     * Permet d'enrgistrer la participation d'un utilisateur à un événement
+     * @Route("/events/{id}/register", name="event_user_register", methods={"GET"})
+     *
+     * @param Event              $event
+     * @param RegisterRepository $registerRepository
+     * @param UserInterface      $user
+     *
+     * @param Request            $request
+     *
+     * @return Response
+     */
+    public function register(Event $event, RegisterRepository $registerRepository, UserInterface $user, Request $request): response
+    {
+
+        if (!$user) {
+            return $this->json([
+                'code'    => 403,
+                'message' => 'Unauthorized',
+            ], 403);
+        }
+
+        $token = $request->get('token');
+        $isValidToken = $this->isCsrfTokenValid($user->getEmail(), $token);
+
+        if (!$isValidToken) {
+            return $this->json([
+                'code'    => 403,
+                'message' => 'Unauthorized',
+            ], 403);
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if ($event->isRegisterByUser($user)) {
+            $register = $registerRepository->findOneBy([
+                'event' => $event,
+                'user'  => $user,
+            ]);
+
+            $entityManager->remove($register);
+            $entityManager->flush();
+
+            return $this->json([
+                'code'      => 200,
+                'message'   => 'User unregistered to this event',
+                'action'    => 'unregistered',
+                'registers' => $registerRepository->count(['event' => $event]),
+            ], 200);
+        }
+
+        $register = new Register();
+        $register
+            ->setEvent($event)
+            ->setUser($user);
+        $entityManager->persist($register);
+        $entityManager->flush();
+
+        return $this->json([
+            'code'      => 200,
+            'message'   => 'User registered to this event',
+            'action'    => 'registered',
+            'registers' => $registerRepository->count(['event' => $event]),
+        ], 200);
     }
 }
