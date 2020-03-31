@@ -13,27 +13,27 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>City</th>
-                <th>Label</th>
-                <th>Created</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Label</th>
+            <th>Titre de l'événement</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Ville</th>
+            <th>Vues</th>
+            <th>Participants</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for event in events %}
             <tr>
-                <td>{{ event.id }}</td>
+                <td>{{ event.label }}</td>
                 <td>{{ event.title }}</td>
                 <td>{{ event.start ? event.start|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ event.end ? event.end|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ event.city }}</td>
-                <td>{{ event.label }}</td>
-                <td>{{ event.created ? event.created|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ event.views }}</td>
+                <td>{{ event.registers | length }}</td>
                 <td>
                     <a href="{{ path('event_show', {'id': event.id}) }}">Voir</a>
                     <a href="{{ path('event_edit', {'id': event.id}) }}">Éditer</a>
