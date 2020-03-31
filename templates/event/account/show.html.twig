@@ -7,59 +7,84 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ event.title }}</td>
-            </tr>
-            <tr>
-                <th>Start</th>
-                <td>{{ event.start ? event.start|date('Y-m-d H:i') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End</th>
-                <td>{{ event.end ? event.end|date('Y-m-d H:i') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ event.address }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ event.city }} - Lat:{{ event.city.lat }} Lng:{{ event.city.lng }}</td>
-            </tr>
-            <tr>
-                <th>Phone</th>
-                <td>{{ event.phone }}</td>
-            </tr>
-            <tr>
-                <th>Website</th>
-                <td>{{ event.website }}</td>
-            </tr>
-            <tr>
-                <th>Mail</th>
-                <td>{{ event.mail }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ event.description }}</td>
-            </tr>
-            <tr>
-                <th>Label</th>
-                <td>{{ event.label }}</td>
-            </tr>
-            <tr>
-                <th>Photo</th>
-                <td>
-                    {% if event.imageName %}
-                        <img src="{{ vich_uploader_asset(event, 'imageFile') | imagine_filter('event_list_thumb') }}"
-                             alt="Image 1">
-                    {% endif %}
-                </td>
-            </tr>
+        <tr>
+            <th>Label</th>
+            <td>{{ event.label }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ event.title }}</td>
+        </tr>
+        <tr>
+            <th>Start</th>
+            <td>{{ event.start ? event.start|date('Y-m-d H:i') : '' }}</td>
+        </tr>
+        <tr>
+            <th>End</th>
+            <td>{{ event.end ? event.end|date('Y-m-d H:i') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td>{{ event.address }}</td>
+        </tr>
+        <tr>
+            <th>City</th>
+            <td>{{ event.city }} - Lat:{{ event.city.lat }} Lng:{{ event.city.lng }}</td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td>{{ event.phone }}</td>
+        </tr>
+        <tr>
+            <th>Website</th>
+            <td>{{ event.website }}</td>
+        </tr>
+        <tr>
+            <th>Mail</th>
+            <td>{{ event.mail }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ event.description }}</td>
+        </tr>
+        <tr>
+            <th>Vues</th>
+            <td>{{ event.views }}</td>
+        </tr>
+        <tr>
+            <th>Participants</th>
+            <td>{{ event.registers | length }}</td>
+        </tr>
+        <tr>
+            <th>Photo</th>
+            <td>
+                {% if event.imageName %}
+                    <img src="{{ vich_uploader_asset(event, 'imageFile') | imagine_filter('event_list_thumb') }}"
+                         alt="Image 1">
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Label HereWeGo</th>
+            <td>
+                <div class="form-group">
+            <textarea rows="5" class="form-control">
+<a href="https://herewego.kevid.fr/events/{{ event.id }}" title="{{ event.title }}" style="text-decoration: none;">
+<img src="https://herewego.kevid.fr/img/herewego-favicon.svg" with="50" height="50" alt="HereWeGo">
+    <br><span style="font-size: 20px; color: #c644fd">HWG</span>
+<br><span style="font-size: 12px; color: #c644fd">{{ event.label }}</span>
+</a>
+            </textarea>
+                </div>
+                <br>
+                <a href="https://herewego.kevid.fr/events/{{ event.id }}" title="{{ event.title }}"
+                   style="text-decoration: none;">
+                    <img src="https://herewego.kevid.fr/img/herewego-favicon.svg" with="50" height="50" alt="HereWeGo">
+                    <br><span style="font-size: 20px; color: #c644fd">HWG</span>
+                    <br><span style="font-size: 12px; color: #c644fd">{{ event.label }}</span>
+                </a>
+            </td>
+        </tr>
         </tbody>
     </table>
 

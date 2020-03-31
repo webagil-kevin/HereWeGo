@@ -98,7 +98,14 @@ class EventController extends AbstractController
 
         // On configure dans quelles langues nous voulons nos données
         $faker = Faker\Factory::create('fr_FR');
-        $event->setLabel(strtoupper(substr($faker->uuid, 1, 5)));
+
+        $city = $form->get('city')->getData();
+
+        $label = strtoupper(substr($faker->uuid, 1, 5));
+        $label .= '-' . date('y');
+        $label .= substr($city, 0, 2);
+
+        $event->setLabel($label);
 
         $event->setCreated(new DateTime());
         $event->setUpdated(new DateTime());

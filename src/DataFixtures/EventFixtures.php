@@ -36,7 +36,7 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
                 ->setPhone($faker->isbn10)
                 ->setWebsite('https://' . $faker->domainName)
                 ->setDescription($faker->paragraph($nbSentences = 4, $variableNbSentences = true))
-                ->setLabel(strtoupper(substr($faker->uuid, 1, 5)))
+                ->setLabel(strtoupper(substr($faker->uuid, 1, 5)) . '-' . date('y') . substr($city->getCp(), 0, 2))
                 ->setUser($user)
                 ->setViews(random_int(1, 500))
                 ->setCreated($faker->dateTimeThisDecade('now', 'Europe/Paris'))
