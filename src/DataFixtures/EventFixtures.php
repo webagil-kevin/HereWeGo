@@ -21,7 +21,7 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
             $category = $manager->getRepository(\App\Entity\Category::class)->find(random_int(1, 2));
             $user = $manager->getRepository(\App\Entity\User::class)->find(random_int(2, 10));
             $start = $faker->dateTimeInInterval($startDate = '-10 days', $interval = '+90 days', 'Europe/Paris');
-            $end = $start->modify('+' . random_int(1, 72) . ' hours');
+            $end = $start->modify('+' . random_int(1, 72) . ' hour');
 
             $event = new Event();
             $event
