@@ -33,36 +33,38 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="{{ asset('js/axios.min.js') }}"></script>
-    <script>
-        function onClickBtnRegister(event) {
-            event.preventDefault();
+    {% if is_granted('ROLE_USER') %}
+        <script src="{{ asset('js/axios.min.js') }}"></script>
+        <script>
+            function onClickBtnRegister(event) {
+                event.preventDefault();
 
-            const registerLink = this.querySelector('a');
-            const registerIcon = this.querySelector('i');
-            const registerLabel = this.querySelector('span.js-register-label');
-            const registerNb = this.querySelector('span.js-register-nb');
+                const registerLink = this.querySelector('a');
+                const registerIcon = this.querySelector('i');
+                const registerLabel = this.querySelector('span.js-register-label');
+                const registerNb = this.querySelector('span.js-register-nb');
 
-            axios.get(registerLink.href).then(function (response) {
-                console.log(response);
-                if (response.data.action === 'registered') {
-                    registerLink.className = "btn btn-success";
-                    registerIcon.className = "fas fa-check-circle";
-                    registerLabel.innerHTML = 'Je participe';
-                    registerNb.innerHTML = response.data.registers;
-                } else if (response.data.action === 'unregistered') {
-                    registerLink.className = "btn btn-primary";
-                    registerIcon.className = "fas fa-plus-circle";
-                    registerLabel.innerHTML = 'Participer';
-                    registerNb.innerHTML = response.data.registers;
-                }
+                axios.get(registerLink.href).then(function (response) {
+                    console.log(response);
+                    if (response.data.action === 'registered') {
+                        registerLink.className = "btn btn-success";
+                        registerIcon.className = "fas fa-check-circle";
+                        registerLabel.innerHTML = 'Je participe';
+                        registerNb.innerHTML = response.data.registers;
+                    } else if (response.data.action === 'unregistered') {
+                        registerLink.className = "btn btn-primary";
+                        registerIcon.className = "fas fa-plus-circle";
+                        registerLabel.innerHTML = 'Participer';
+                        registerNb.innerHTML = response.data.registers;
+                    }
+                })
+            }
+
+            document.querySelectorAll('div.js-register').forEach(function (link) {
+                link.addEventListener('click', onClickBtnRegister);
             })
-        }
-
-        document.querySelectorAll('div.js-register').forEach(function (link) {
-            link.addEventListener('click', onClickBtnRegister);
-        })
-    </script>
+        </script>
+    {% endif %}
 {% endblock %}
 
 

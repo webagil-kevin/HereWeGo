@@ -458,7 +458,7 @@ class Event
      *
      * @return bool
      */
-    public function isRegisterByUser(User $user): bool
+    public function isRegisterByUser(?User $user): bool
     {
         foreach ($this->getRegisters() as $register) {
             if ($register->getUser() === $user) {
